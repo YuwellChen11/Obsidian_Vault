@@ -1,5 +1,5 @@
 ---
-cover: "[[Project Technical Document.jpeg]]"
+cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 ---
 ---
 
@@ -15,9 +15,9 @@ cover: "[[Project Technical Document.jpeg]]"
 > - 环境：使用MobaXterm同一局域网SSH远程连接Jetson
 > - 现象：输入`nvgstcapture-1.0`测试摄像头报错/黑屏
 > 
-> ![](../../919accf6c107c825a2c9f4dd30b70eb.jpg)
+> ![](assets/Project%20Technical%20Document/file-20260214014016570.jpg)
 > 
-> ![](../../81536c4ef9b61a4a5ca19785e37a2a6.jpg)
+> ![](assets/Project%20Technical%20Document/file-20260214014016587.jpg)
 > 
 > - 分析：远程协议无法直接承载这种高带宽的底层硬件渲染，不能使用SSH测试需连接到显示器桌面才可以。另外，使用NoMachine测试也是如此，远程协议（X11/、NoMachine）不兼容硬件加速的渲染器
 
@@ -27,7 +27,7 @@ cover: "[[Project Technical Document.jpeg]]"
 > - 环境：Jetson连接物理显示屏/使用NoMachine远程连接Jetson图形化界面
 > - 现象：重装系统后终端输入查找连接设备命令`ls /dev/video*`显示无法访问
 > 
-> ![](../../c8d4d7dbea8b191f8547719937bed61.jpg)
+> ![](assets/Project%20Technical%20Document/file-20260214014016605.jpg)
 > 
 > - 分析：系统首次连接CSI摄像头需要在CSI Connector界面中进行软件配置
 
@@ -44,8 +44,8 @@ cover: "[[Project Technical Document.jpeg]]"
 > - 环境：通过HDMI欺骗器连接NoMachine使用，且使用 `nvgstcapture-1.0` 和 `ls /dev/video*` 均有显示和输出
 > - 现象：在 `~/CSI-Camera` 目录下输入 `python3 simple_camera.py` 命令报错 
 > `Error: Unable to open camera`
-> ![](../../image.png)
-> ![](../../image%201.png)
+> ![](assets/Project%20Technical%20Document/file-20260214014016619.png)
+> ![](assets/Project%20Technical%20Document/file-20260214014016638.png)
 > - 分析：使用NumPy 1.x编译的模块无法在NumPy 2.2.6中运行，NumPy 2.0是一个重大更新，破坏了许多旧版本二进制文件的兼容性。在Jetson这种嵌入式系统上，系统自带的python3-opencv通常比较保守，只支持NumPy 1.x
 
 > [!note]+ ## ✅ Solution: 降级NumPy / 配置Miniforge
@@ -54,7 +54,7 @@ cover: "[[Project Technical Document.jpeg]]"
 > - **验证修复：**再次运行之前的检测命令，看是否还会报错
 > `python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -i gstreamer`
 > 
-> ![](../../image%202.png)
+> ![](assets/Project%20Technical%20Document/file-20260214014016653.png)
 
 # 🏗️ Environment Setup
 
@@ -67,48 +67,48 @@ cover: "[[Project Technical Document.jpeg]]"
 > 
 > - 准备一个合适的Ubuntu环境（我用的是VMware虚拟机做的Ubuntu 22.04）
 > ==⚠️ 若要刷较新的系统则需选择版本较高的Ubuntu，比如我刷写的是JetPack6.2.1则需选择Ubuntu 20.04以上的，而不能选择Ubuntu 18.04，故我虚拟机使用的是Ubuntu 22.04==
-> ![](../../image%203.png)
+> ![](assets/Project%20Technical%20Document/file-20260214014016664.png)
 > ==⚠️ 虚拟机配置中，硬盘需分配100GB以上（前提是虚拟机所在磁盘空间充足），因为烧录过程中会产生大量的临时文件和缓存 ，并且虚拟机最好装在本机磁盘，不要装在移动硬盘上，否则就会如下图所示：==即将虚拟机安装在了移动硬盘，并且移动硬盘的剩余空间不足！！！
-> ![](../../7329f1d76f228db125f2a5acf2dd037.jpg)
+> ![](assets/Project%20Technical%20Document/file-20260214014016678.jpg)
 > ==**因此会导致虚拟机强制暂停，且硬盘由于空间不足会自动断开连接，此时如果立即插上是检测不到的，遇到这种情况先别着急，先让硬盘缓会再插上或将电脑重启再插上就能检测到了**==
 > - 在虚拟机Ubuntu系统上从[https://developer.nvidia.com/sdk-manager](https://developer.nvidia.com/sdk-manager)中下载.deb(x86_64)的安装包，并按提示安装好SDK Manager烧写工具
-> ![](../../image%204.png)
+> ![](assets/Project%20Technical%20Document/file-20260214014016698.png)
 > 
 > ### 🚀 核心步骤
 > 
 > 1. 让Jetson Orin Nano开发板进入APX模式（烧录模式），即用杜邦线短接GND和REC排针；用配套的USB转Type-c线连接电脑自带的USB口和Jetson的系统烧录接口==（最好不要用电脑外接拓展坞连接USB线，防止出现传输不稳定）==
 > 2. 接好线上电后，在电脑端会弹出“检测到新的USB设备”，选择连接到虚拟机
 > > [!note]+ 可以在虚拟机系统设置中添加USB设备筛选器，使得只要Jetson接入就能被虚拟机抓取到
-> > ![](../../c4d8ce48-d1c6-473b-8569-cb7eb6392ad6.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016714.png)
 > 3. 选择好对应的开发板和JetPack版本，点击“CONTINUE”下一步
 > > [!note]+ 选择Jetson Orin Nano 8GB（官方核心板），不要去选择developer Kit（开发套件）
-> > ![](../../67b777b3-79f7-47cc-9758-9be5fc0a74c7.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016727.png)
 > 
 > > [!note]+ 选择自己需要烧录的JetPack版本，我这最后选择的是JetPack6.2.1
-> > ![](../../1d2e9c98ed4f3d9f7aafd8b29bfaecc.jpg)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016746.jpg)
 > 4. 选择好需要烧录的基本系统（必选），勾选同意对应条款，点击“CONTINUE”下一步
 > > [!note]+ 此处只勾选JETSON LINUX及其下属文件，其余JetPack组件等待完成系统安装后根据需要再下载，由此也能加快下载的进度
-> > ![](../../image%205.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016764.png)
 > 5. 点击下一步后可能会需要我们输入Ubuntu系统密码，进入到STEP 03后会有弹窗让你选择，我们直接点击弹窗右下角的“Skip”跳过烧写这步
 > > [!note]+ 正常在SDK Manager是需要在这选择相关配置信息的，但是我们后面会用指定命令行的方式去刷写系统（即刷Super模式的系统），故此处跳过
-> > ![](../../75f1620d26dcf8cac25cbeddba0a733.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016789.png)
 > 6. 此时可以关闭SDK Manager，我们所需的系统文件已经下载到了Ubuntu的主文件夹下
 > > [!note]+ 打开“主文件夹”我们会看到有一个名为“nvidia”的文件夹
-> > ![](../../image%206.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016831.png)
 > 
 > > [!note]+ 我们一直打开到该目录下，也可以在终端用cd命令行跳转至此处目录下
 > > `/nvidia/nvidia_sdk/JetPack_6.2.1_Linux_JETSON_ORIN_NANO_TARGETS/Linux_for_Tegra`
 > > 
-> > ![](../../image%207.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016892.png)
 > 7. 根据Nvidia官方文档，我们找到对应开发套件刷写Super模式的指定命令行
 > > [!note]+ 即图中框出的Jetson Orin Nano Developer Kit with Super Configuration (NVMe) ，因为我手上这块Jetson只接了一块NVMe固态硬盘，故我选择这部分指定命令行
-> > ![](../../image%208.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016905.png)
 > 8. 将指定命令行拷贝到之前目录下新建的.txt文件中，删除原命令行的换行符号，整理好并复制
 > > [!note]+ 在该目录下打开终端，我们使用`touch 1.txt` 命令创建.txt文件
-> > ![](../../cb76866a-b53e-419d-9ebc-a58ed9a9360a.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016913.png)
 > 
 > > [!note]+ 打开创建的.txt文件并整理成以空格分隔
-> > ![](../../image%209.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016927.png)
 > 9. 复制整理后的命令行，从当前目录下打开终端，粘贴命令行并点击Enter键运行，此时需要输入Ubuntu的密码
 > ==⚠️  运行前最好确保Jetson还在虚拟机USB设备的连接状态，没问题即可运行命令行==
 > ```javascript
@@ -167,7 +167,7 @@ cover: "[[Project Technical Document.jpeg]]"
 > > 
 > > **预期结果**：输出应包含 `GStreamer: YES` 
 > > 
-> > ![](../../image%2010.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016936.png)
 > > 
 > > 💡 激活专属环境：在（base）环境下输入命令行激活（arm_vision）环境
 > > 
@@ -175,7 +175,7 @@ cover: "[[Project Technical Document.jpeg]]"
 > > conda activate arm_vision
 > > ```
 > > 
-> > ![](../../image%2011.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016954.png)
 > > 
 > > ==注：转换成其它环境同理==
 
@@ -197,41 +197,41 @@ cover: "[[Project Technical Document.jpeg]]"
 > 
 > 1. 打开Matlab中的Camera Calibrator
 > > [!note]+ 点击Matlab中APP一栏，找到“图像处理和计算机视觉”下的“Camera Calibrator”
-> > ![](../../image%2012.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016965.png)
 > > 
-> > ![](../../image%2013.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014016990.png)
 > 2. 添加图片
 > > [!note]+ 打开“Camera Calibrator”后，点击“Add Images”中的“From file”从本地添加采集好的20张以上标定板图像
-> > ![](../../image%2014.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017013.png)
 > 
 > > [!note]+ 全选添加图像后，在弹窗输入标定板方格实际边长（如：我打印的标定板方格实际边长是23.88 mm），选择图像畸变（如：我使用的是 **77度镜头**，**故我选择图像低畸变。**==高畸变====**通常用于鱼眼镜头或 120 度以上的超广角镜头**==**）**
-> > ![](../../image%2015.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017032.png)
 > 
 > > [!note]+ 导入图像数据后，一般选择“Standard”标准模式，在“Options”设置中选择“3 Coefficients”3参数和“Tangential Distortion”切向畸变
-> > ![](../../image%2016.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017096.png)
 > 3. 开始标定
 > > [!note]+ 完成设置后点击绿色按钮“Calibrate”开始标定
-> > ![](../../image%2017.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017146.png)
 > 4. 手动剔除高重投影误差样本
 > > [!note]+ 图像完成标定后在界面右上方显示的是“Reprojection Errors”重投影误差，右下方显示的是“Camera-centtric”以相机为中心视角展示的各个图像三维位置关系
-> > ![](../../image%2018.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017184.png)
 > 
 > > [!note]+ 拖动重投影误差图中的红线选取极端值（如图重投影误差最高值是0.26像素，总平均重投影误差值是0.17像素），==若重投影误差<0.3 像素一般评估为标定效果良好==，若重投影误差>0.3像素，则需手动在柱状图中点击需要剔除的高误差柱，左侧会自动跳转到对应图像，右击该图像点击“Remove and Recalibrate”移除并重新标定
-> > ![](../../image%2019.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017300.png)
 > 
 > > [!note]+ 例如：在剔除1张较高重投影误差的图像后，重投影误差最高值降低至0.25像素
-> > ![](../../image%2020.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017312.png)
 > 5. 导出相机参数至工作区
 > > [!note]+ 完成手动剔除后，点击上方“Export Camera Parameters”导出相机参数，选择“Export Parameters to Workspace”导出参数至工作区。上方还有一个“Show Undistorted”的按钮，点击可查看畸变校正后的图像
-> > ![](../../image%2021.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017323.png)
 > 6. 查看相机参数
 > > [!note]+ 将参数导出至工作区后我们回到Matlab主页，点击工作区中的相机参数一栏，此时我们找到变量中的“IntrinsicMatrix”内参矩阵
-> > ![](../../image%2022.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017337.png)
 > 
 > > [!note]+ 点击内参矩阵具体数值进入查看
-> > ![](../../image%2023.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017353.png)
 > > 
-> > ![](../../image%2024.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017367.png)
 > > 
 > > **⚠️ 此处需要注意的是，Matlab中的内参矩阵和OpenCV中的内参矩阵不同，Matlab中采用的内参矩阵格式是OpenCV中内参矩阵的转置 **
 > > 
@@ -260,7 +260,7 @@ cover: "[[Project Technical Document.jpeg]]"
 > > 因此我们需要在Matlab内参矩阵中一一记下$f_x、f_y、c_x、c_y$对应的四个参数值，从而在 Python 脚本里用 NumPy 手动填进去
 > 7. 保存相机参数
 > > [!note]+ 在工作区右键相机参数值，选择另存为至本地以供后面使用
-> > ![](../../image%2025.png)
+> > ![](assets/Project%20Technical%20Document/file-20260214014017482.png)
 > 
 > 内参矩阵（K）：
 > $$

@@ -9,7 +9,7 @@
 
 摄像头安装：22 转15pin 排线，建议连接CAM0 端口
 
-![](../../image1.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014020356.png)
 
 ## 1.2 软件配置 
 
@@ -23,29 +23,29 @@ $ sudo /opt/nvidia/jetson-io/jetson-io.py
 
 Step 2：选择配置Jetson 24pin CSI Connector，按enter 键继续 
 
-![](../../image2.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014020388.png)
 
 Step 3：确认当前CSI Connector IO配置; （对硬件不熟悉的就继续吧，熟悉的可以看看是否当前就是正确的） 
 
-![](../../image3.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014020403.png)
 
 Step 4：选择满足摄像头型号需求的CSI Connector IO 配置（一般套餐内配的摄像头型号都是imx219） 
 
-![](../../image4.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014020422.png)
 
 ==注意：硬件连接到CAM0 这个22pin 接口上的摄像头，但是选择“Camera IMX219-cam0"是不行的，要选“Camera IMX219 Dual"或者“Camera IMX219-cam1"。（不同JetPcak 版本显示界面也会有所不同） ==
 
 Step 5：保存CSI Connector IO 配置
 
-![](../../image5.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014012129.png)
 
 Step 6：确认保存，并重启生效CSI Connector IO 配置 
 
-![](../../image6.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014012151.png)
 
 Step 7：任意键执行重启，一般回车 
 
-![](../../image7.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014012170.png)
 
 Step 8 ：打开Terminal 终端，输入如下命令安装JetPack 组件 
 
@@ -66,13 +66,13 @@ $ sudo apt install nvidia-jetpack
 $ ls /dev/video* 
 ```
 
-![](../../image8.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014012189.png)
 
 ```javascript
 $ nvgstcapture-1.0 
 ```
 
-![](../../image9.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014012211.png)
 
 系统将自动弹出摄像头显示窗口:打开/dev/video0 默认设备,执行Enter + C 退出
 
@@ -84,4 +84,4 @@ $ nvgstcapture-1.0
 $ nvgstcapture-1.0 -sensor-id=0 --cus-prev-res=1920x1080 
 ```
 
-![](../../image10.png)
+![](assets/Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头/file-20260214014012236.png)
