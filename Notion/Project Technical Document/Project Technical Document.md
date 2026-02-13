@@ -8,7 +8,6 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 > [!tip] 💡
 > 核心模块：Jetson Orin Nano Super (8GB) CLB
 > 历史系统版本：JetPack 5.1.x | Ubuntu 20.04
-> 
 > 现行系统版本：JetPack 6.2.1 | Ubuntu 22.04
 
 > [!note]+ ## ❌ Issue：CSI摄像头测试命令报错
