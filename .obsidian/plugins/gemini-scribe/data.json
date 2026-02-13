@@ -6,7 +6,7 @@
   "imageModelName": "gemini-2.5-flash-image",
   "summaryFrontmatterKey": "summary",
   "userName": "User",
-  "chatHistory": false,
+  "chatHistory": true,
   "historyFolder": "gemini-scribe",
   "debugMode": false,
   "maxRetries": 3,
@@ -25,7 +25,7 @@
   "loopDetectionEnabled": true,
   "loopDetectionThreshold": 3,
   "loopDetectionTimeWindowSeconds": 30,
-  "alwaysAllowReadWrite": false,
+  "alwaysAllowReadWrite": true,
   "hasSeenV4Welcome": true,
   "lastSeenVersion": "4.4.0",
   "ragIndexing": {
