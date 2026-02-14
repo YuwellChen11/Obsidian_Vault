@@ -10,37 +10,30 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 
 ## ❌ Issue：CSI摄像头测试命令报错
 - 环境：使用MobaXterm同一局域网SSH远程连接Jetson
-- 现象：输入`nvgstcapture-1.0`测试摄像头报错/黑屏 ![](assets/Project%20Technical%20Document/file-20260214014016570.jpg)![](assets/Project%20Technical%20Document/file-20260214014016587.jpg)
+- 现象：输入`nvgstcapture-1.0`测试摄像头报错/黑屏 
+	![](assets/Project%20Technical%20Document/file-20260214014016570.jpg)![](assets/Project%20Technical%20Document/file-20260214014016587.jpg)
 - 分析：远程协议无法直接承载这种高带宽的底层硬件渲染，不能使用SSH测试需连接到显示器桌面才可以。另外，使用NoMachine测试也是如此，远程协议（X11/、NoMachine）不兼容硬件加速的渲染器
 
 ## ✅ Solution：连接物理显示屏使用测试命令 / 插入HDMI欺骗器模拟物理显示屏（针对NoMachine上不显示）
 
-> [!note]+ ## ❌ Issue：CSI摄像头无法识别
-> - 环境：Jetson连接物理显示屏/使用NoMachine远程连接Jetson图形化界面
-> - 现象：重装系统后终端输入查找连接设备命令`ls /dev/video*`显示无法访问
-> 
-> ![](assets/Project%20Technical%20Document/file-20260214014016605.jpg)
-> 
-> - 分析：系统首次连接CSI摄像头需要在CSI Connector界面中进行软件配置
+## ❌ Issue：CSI摄像头无法识别
+- 环境：Jetson连接物理显示屏/使用NoMachine远程连接Jetson图形化界面
+- 现象：重装系统后终端输入查找连接设备命令`ls /dev/video*`显示无法访问
+	![](assets/Project%20Technical%20Document/file-20260214014016605.jpg)
+- 分析：系统首次连接CSI摄像头需要在CSI Connector界面中进行软件配置
 
-> [!note]+ ## ✅ Solution：参考技术文档进行软件配置
-> <!-- Column 1 -->
-> - 详细操作参考如下技术文档： 
->     [Jetson Orin Nano super 系统配置调用 CSI 摄像头](Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头.md)
-> **⚠️ **==**CSI摄像头不能热插拔！需要断电后插线再上电使用，否则也会导致检测不到 CSI摄像头！**==
-> 
-> <!-- Column 2 -->
-> 
+## ✅ Solution：参考技术文档进行软件配置
+- 详细操作参考如下技术文档： [Jetson Orin Nano super 系统配置调用 CSI 摄像头](Jetson%20Orin%20Nano%20super%20系统配置调用%20CSI%20摄像头.md)
+ ⚠️ ==CSI摄像头不能热插拔！需要断电后插线再上电使用，否则也会导致检测不到 CSI摄像头！==
 
-> [!note]+ ## ❌ Issue：Python调用CSI摄像头报错
-> - 环境：通过HDMI欺骗器连接NoMachine使用，且使用 `nvgstcapture-1.0` 和 `ls /dev/video*` 均有显示和输出
-> - 现象：在 `~/CSI-Camera` 目录下输入 `python3 simple_camera.py` 命令报错 
-> `Error: Unable to open camera`
-> ![](assets/Project%20Technical%20Document/file-20260214014016619.png)
-> ![](assets/Project%20Technical%20Document/file-20260214014016638.png)
-> - 分析：使用NumPy 1.x编译的模块无法在NumPy 2.2.6中运行，NumPy 2.0是一个重大更新，破坏了许多旧版本二进制文件的兼容性。在Jetson这种嵌入式系统上，系统自带的python3-opencv通常比较保守，只支持NumPy 1.x
+## ❌ Issue：Python调用CSI摄像头报错
+- 环境：通过HDMI欺骗器连接NoMachine使用，且使用 `nvgstcapture-1.0` 和 `ls /dev/video*` 均有显示和输出
+- 现象：在 `~/CSI-Camera` 目录下输入 `python3 simple_camera.py` 命令报错  `Error: Unable to open camera` 
+	![](assets/Project%20Technical%20Document/file-20260214014016619.png)
+	![](assets/Project%20Technical%20Document/file-20260214014016638.png)
+- 分析：使用NumPy 1.x编译的模块无法在NumPy 2.2.6中运行，NumPy 2.0是一个重大更新，破坏了许多旧版本二进制文件的兼容性。在Jetson这种嵌入式系统上，系统自带的python3-opencv通常比较保守，只支持NumPy 1.x
 
-> [!note]+ ## ✅ Solution: 降级NumPy / 配置Miniforge
+## ✅ Solution: 降级NumPy / 配置Miniforge
 > - **卸载当前的 NumPy：**`pip uninstall numpy`
 > - **安装兼容的 NumPy 1.x 版本：**`pip install "numpy<2"`
 > - **验证修复：**再次运行之前的检测命令，看是否还会报错
