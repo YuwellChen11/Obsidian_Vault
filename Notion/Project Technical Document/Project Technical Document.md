@@ -34,73 +34,64 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 - 分析：使用NumPy 1.x编译的模块无法在NumPy 2.2.6中运行，NumPy 2.0是一个重大更新，破坏了许多旧版本二进制文件的兼容性。在Jetson这种嵌入式系统上，系统自带的python3-opencv通常比较保守，只支持NumPy 1.x
 
 ## ✅ Solution: 降级NumPy / 配置Miniforge
-> - **卸载当前的 NumPy：**`pip uninstall numpy`
-> - **安装兼容的 NumPy 1.x 版本：**`pip install "numpy<2"`
-> - **验证修复：**再次运行之前的检测命令，看是否还会报错
-> `python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -i gstreamer`
-> 
-> ![](assets/Project%20Technical%20Document/file-20260214014016653.png)
+- **卸载当前的 NumPy：**`pip uninstall numpy`
+- **安装兼容的 NumPy 1.x 版本：**`pip install "numpy<2"`
+- **验证修复：** 再次运行之前的检测命令，看是否还会报错`python3 -c "import cv2; print(cv2.getBuildInformation())" | grep -i gstreamer`
+	![](assets/Project%20Technical%20Document/file-20260214014016653.png)
 
 # 🏗️ Environment Setup
 
-> [!note]+ ## ⚙️ 系统刷写与Super模式开启
-> ### 📌 配置目的
-> 
-> 将系统从不稳定的旧版（JetPack 5.1.x / Ubuntu 20.04）升级至最新的开发环境（JetPack 6.2.1 / Ubuntu 22.04），并确保CLB Super 板的硬件特性被正确激活
-> 
-> ### 🛠️ 准备工作
-> 
-> - 准备一个合适的Ubuntu环境（我用的是VMware虚拟机做的Ubuntu 22.04）
-> ==⚠️ 若要刷较新的系统则需选择版本较高的Ubuntu，比如我刷写的是JetPack6.2.1则需选择Ubuntu 20.04以上的，而不能选择Ubuntu 18.04，故我虚拟机使用的是Ubuntu 22.04==
-> ![](assets/Project%20Technical%20Document/file-20260214014016664.png)
-> ==⚠️ 虚拟机配置中，硬盘需分配100GB以上（前提是虚拟机所在磁盘空间充足），因为烧录过程中会产生大量的临时文件和缓存 ，并且虚拟机最好装在本机磁盘，不要装在移动硬盘上，否则就会如下图所示：==即将虚拟机安装在了移动硬盘，并且移动硬盘的剩余空间不足！！！
-> ![](assets/Project%20Technical%20Document/file-20260214014016678.jpg)
-> ==**因此会导致虚拟机强制暂停，且硬盘由于空间不足会自动断开连接，此时如果立即插上是检测不到的，遇到这种情况先别着急，先让硬盘缓会再插上或将电脑重启再插上就能检测到了**==
-> - 在虚拟机Ubuntu系统上从[https://developer.nvidia.com/sdk-manager](https://developer.nvidia.com/sdk-manager)中下载.deb(x86_64)的安装包，并按提示安装好SDK Manager烧写工具
-> ![](assets/Project%20Technical%20Document/file-20260214014016698.png)
-> 
-> ### 🚀 核心步骤
-> 
-> 1. 让Jetson Orin Nano开发板进入APX模式（烧录模式），即用杜邦线短接GND和REC排针；用配套的USB转Type-c线连接电脑自带的USB口和Jetson的系统烧录接口==（最好不要用电脑外接拓展坞连接USB线，防止出现传输不稳定）==
-> 2. 接好线上电后，在电脑端会弹出“检测到新的USB设备”，选择连接到虚拟机
-> > [!note]+ 可以在虚拟机系统设置中添加USB设备筛选器，使得只要Jetson接入就能被虚拟机抓取到
-> > ![](assets/Project%20Technical%20Document/file-20260214014016714.png)
-> 3. 选择好对应的开发板和JetPack版本，点击“CONTINUE”下一步
-> > [!note]+ 选择Jetson Orin Nano 8GB（官方核心板），不要去选择developer Kit（开发套件）
-> > ![](assets/Project%20Technical%20Document/file-20260214014016727.png)
-> 
-> > [!note]+ 选择自己需要烧录的JetPack版本，我这最后选择的是JetPack6.2.1
-> > ![](assets/Project%20Technical%20Document/file-20260214014016746.jpg)
-> 4. 选择好需要烧录的基本系统（必选），勾选同意对应条款，点击“CONTINUE”下一步
-> > [!note]+ 此处只勾选JETSON LINUX及其下属文件，其余JetPack组件等待完成系统安装后根据需要再下载，由此也能加快下载的进度
-> > ![](assets/Project%20Technical%20Document/file-20260214014016764.png)
-> 5. 点击下一步后可能会需要我们输入Ubuntu系统密码，进入到STEP 03后会有弹窗让你选择，我们直接点击弹窗右下角的“Skip”跳过烧写这步
-> > [!note]+ 正常在SDK Manager是需要在这选择相关配置信息的，但是我们后面会用指定命令行的方式去刷写系统（即刷Super模式的系统），故此处跳过
-> > ![](assets/Project%20Technical%20Document/file-20260214014016789.png)
-> 6. 此时可以关闭SDK Manager，我们所需的系统文件已经下载到了Ubuntu的主文件夹下
-> > [!note]+ 打开“主文件夹”我们会看到有一个名为“nvidia”的文件夹
-> > ![](assets/Project%20Technical%20Document/file-20260214014016831.png)
-> 
-> > [!note]+ 我们一直打开到该目录下，也可以在终端用cd命令行跳转至此处目录下
-> > `/nvidia/nvidia_sdk/JetPack_6.2.1_Linux_JETSON_ORIN_NANO_TARGETS/Linux_for_Tegra`
-> > 
-> > ![](assets/Project%20Technical%20Document/file-20260214014016892.png)
-> 7. 根据Nvidia官方文档，我们找到对应开发套件刷写Super模式的指定命令行
-> > [!note]+ 即图中框出的Jetson Orin Nano Developer Kit with Super Configuration (NVMe) ，因为我手上这块Jetson只接了一块NVMe固态硬盘，故我选择这部分指定命令行
-> > ![](assets/Project%20Technical%20Document/file-20260214014016905.png)
-> 8. 将指定命令行拷贝到之前目录下新建的.txt文件中，删除原命令行的换行符号，整理好并复制
-> > [!note]+ 在该目录下打开终端，我们使用`touch 1.txt` 命令创建.txt文件
-> > ![](assets/Project%20Technical%20Document/file-20260214014016913.png)
-> 
-> > [!note]+ 打开创建的.txt文件并整理成以空格分隔
-> > ![](assets/Project%20Technical%20Document/file-20260214014016927.png)
-> 9. 复制整理后的命令行，从当前目录下打开终端，粘贴命令行并点击Enter键运行，此时需要输入Ubuntu的密码
-> ==⚠️  运行前最好确保Jetson还在虚拟机USB设备的连接状态，没问题即可运行命令行==
+## ⚙️ 系统刷写与Super模式开启
+### 📌 配置目的
+  将系统从不稳定的旧版（JetPack 5.1.x / Ubuntu 20.04）升级至最新的开发环境（JetPack 6.2.1 / Ubuntu 22.04），并确保CLB Super 板的硬件特性被正确激活
+ 
+### 🛠️ 准备工作
+- 准备一个合适的Ubuntu环境（我用的是VMware虚拟机做的Ubuntu 22.04）
+- ==⚠️ 若要刷较新的系统则需选择版本较高的Ubuntu，比如我刷写的是JetPack6.2.1则需选择Ubuntu 20.04以上的，而不能选择Ubuntu 18.04，故我虚拟机使用的是Ubuntu 22.04==
+	![](assets/Project%20Technical%20Document/file-20260214014016664.png)
+	==⚠️ 虚拟机配置中，硬盘需分配100GB以上（前提是虚拟机所在磁盘空间充足），因为烧录过程中会产生大量的临时文件和缓存 ，并且虚拟机最好装在本机磁盘，不要装在移动硬盘上，否则就会如下图所示：==即将虚拟机安装在了移动硬盘，并且移动硬盘的剩余空间不足！！！
+	![](assets/Project%20Technical%20Document/file-20260214014016678.jpg)
+	==**因此会导致虚拟机强制暂停，且硬盘由于空间不足会自动断开连接，此时如果立即插上是检测不到的，遇到这种情况先别着急，先让硬盘缓会再插上或将电脑重启再插上就能检测到了**==
+- 在虚拟机Ubuntu系统上从[https://developer.nvidia.com/sdk-manager](https://developer.nvidia.com/sdk-manager)中下载.deb(x86_64)的安装包，并按提示安装好SDK Manager烧写工具
+	![](assets/Project%20Technical%20Document/file-20260214014016698.png) 
+
+### 🚀 核心步骤 
+1. 让Jetson Orin Nano开发板进入APX模式（烧录模式），即用杜邦线短接GND和REC排针；用配套的USB转Type-c线连接电脑自带的USB口和Jetson的系统烧录接口==（最好不要用电脑外接拓展坞连接USB线，防止出现传输不稳定）==
+2. 接好线上电后，在电脑端会弹出“检测到新的USB设备”，选择连接到虚拟机
+	可以在虚拟机系统设置中添加USB设备筛选器，使得只要Jetson接入就能被虚拟机抓取到
+	![](assets/Project%20Technical%20Document/file-20260214014016714.png)
+3. 选择好对应的开发板和JetPack版本，点击“CONTINUE”下一步
+	选择Jetson Orin Nano 8GB（官方核心板），不要去选择developer Kit（开发套件）
+	![](assets/Project%20Technical%20Document/file-20260214014016727.png)
+	选择自己需要烧录的JetPack版本，我这最后选择的是JetPack6.2.1
+	![](assets/Project%20Technical%20Document/file-20260214014016746.jpg)
+4. 选择好需要烧录的基本系统（必选），勾选同意对应条款，点击“CONTINUE”下一步
+	此处只勾选JETSON LINUX及其下属文件，其余JetPack组件等待完成系统安装后根据需要再下载，由此也能加快下载的进度
+	![](assets/Project%20Technical%20Document/file-20260214014016764.png)
+5. 点击下一步后可能会需要我们输入Ubuntu系统密码，进入到STEP 03后会有弹窗让你选择，我们直接点击弹窗右下角的“Skip”跳过烧写这步
+	正常在SDK Manager是需要在这选择相关配置信息的，但是我们后面会用指定命令行的方式去刷写系统（即刷Super模式的系统），故此处跳过 
+	![](assets/Project%20Technical%20Document/file-20260214014016789.png)
+6. 此时可以关闭SDK Manager，我们所需的系统文件已经下载到了Ubuntu的主文件夹下
+	打开“主文件夹”我们会看到有一个名为“nvidia”的文件夹
+	![](assets/Project%20Technical%20Document/file-20260214014016831.png)
+	我们一直打开到该目录下，也可以在终端用cd命令行跳转至此处目录下`/nvidia/nvidia_sdk/JetPack_6.2.1_Linux_JETSON_ORIN_NANO_TARGETS/Linux_for_Tegra`
+	![](assets/Project%20Technical%20Document/file-20260214014016892.png)
+7. 根据Nvidia官方文档，我们找到对应开发套件刷写Super模式的指定命令行
+	即图中框出的Jetson Orin Nano Developer Kit with Super Configuration (NVMe) ，因为我手上这块Jetson只接了一块NVMe固态硬盘，故我选择这部分指定命令行
+	![](assets/Project%20Technical%20Document/file-20260214014016905.png)
+8. 将指定命令行拷贝到之前目录下新建的.txt文件中，删除原命令行的换行符号，整理好并复制
+	在该目录下打开终端，我们使用`touch 1.txt` 命令创建.txt文件
+	![](assets/Project%20Technical%20Document/file-20260214014016913.png)
+	打开创建的.txt文件并整理成以空格分隔
+	![](assets/Project%20Technical%20Document/file-20260214014016927.png)
+9. 复制整理后的命令行，从当前目录下打开终端，粘贴命令行并点击Enter键运行，此时需要输入Ubuntu的密码
+	==⚠️  运行前最好确保Jetson还在虚拟机USB设备的连接状态，没问题即可运行命令行==
 > ```javascript
 > sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" --showlogs --network usb0 jetson-orin-nano-devkit-super internal
 > ```
-> ==**开始烧录后务必不要离开，需等候在电脑前，因为到Step 3后系统会弹出“检测到新的USB设备”，此时我们应尽快点击连接到虚拟机，否则连接将会超时导致烧录失败！**==
-> 10. 烧录完成后终端会跳回命令行，此时拔掉短接的杜邦线，HDMI线连接上屏幕，将键盘鼠标等外设连接到Jetson上。进入新系统界面完成相关设置后，即可在界面右上角看到
+
+==**开始烧录后务必不要离开，需等候在电脑前，因为到Step 3后系统会弹出“检测到新的USB设备”，此时我们应尽快点击连接到虚拟机，否则连接将会超时导致烧录失败！**==
+> 9. 烧录完成后终端会跳回命令行，此时拔掉短接的杜邦线，HDMI线连接上屏幕，将键盘鼠标等外设连接到Jetson上。进入新系统界面完成相关设置后，即可在界面右上角看到
 
 > [!note]+ ## ⚙️ 配置Miniforge
 > ### 📌 配置目的 
