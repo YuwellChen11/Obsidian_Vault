@@ -1,8 +1,6 @@
 ---
 cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 ---
----
-
 # 📔 Issue & Solution
 
 > [!tip] 💡
@@ -10,7 +8,7 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 > 历史系统版本：JetPack 5.1.x | Ubuntu 20.04
 > 现行系统版本：JetPack 6.2.1 | Ubuntu 22.04
 
-> [!note]+ ## ❌ Issue：CSI摄像头测试命令报错
+## ❌ Issue：CSI摄像头测试命令报错
 > - 环境：使用MobaXterm同一局域网SSH远程连接Jetson
 > - 现象：输入`nvgstcapture-1.0`测试摄像头报错/黑屏
 > 
