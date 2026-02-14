@@ -86,38 +86,44 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 	![](assets/Project%20Technical%20Document/file-20260214014016927.png)
 9. 复制整理后的命令行，从当前目录下打开终端，粘贴命令行并点击Enter键运行，此时需要输入Ubuntu的密码
 	==⚠️  运行前最好确保Jetson还在虚拟机USB设备的连接状态，没问题即可运行命令行==
+	
 	==**开始烧录后务必不要离开，需等候在电脑前，因为到Step 3后系统会弹出“检测到新的USB设备”，此时我们应尽快点击连接到虚拟机，否则连接将会超时导致烧录失败！**==
+
 ```javascript
 sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" --showlogs --network usb0 jetson-orin-nano-devkit-super internal
 ```
 10. 烧录完成后终端会跳回命令行，此时拔掉短接的杜邦线，HDMI线连接上屏幕，将键盘鼠标等外设连接到Jetson上。进入新系统界面完成相关设置后，即可在界面右上角看到
 
-## ⚙️ 配置Miniforge
-### 📌 配置目的 
-通过配置虚拟环境（Miniforge），可以让标定程序运行在NumPy 1.x环境下，而让未来的SAM3D或高级AI模型运行在NumPy 2.x环境下，互不干扰。将Jetson变成一个“模块化、高性能且不容易崩”的开发平台
-
-### 🛠️ 准备工作 
-- **网络环境**：确保能够稳定连接GitHub下载安装脚本与Conda镜像源
-- **系统确认**：核对系统为JetPack 6.2.1，确认基础Python 版本为3.10，确保后续虚拟环境版本一致
-- **冲突清理**：卸载之前全局pip安装的NumPy 2.x版本，避免其干扰虚拟环境对系统OpenCV库的调用
-- **路径定位**：确定系统预装OpenCV的.so文件路径（通常在`/usr/lib/python3/dist-packages/cv2`），用于后续在虚拟环境中建立软链接 
-
-### 🚀 核心步骤 
-1. 安装Minifoge
-	输入以下代码，一路输入yes或按回车，最后重启终端或执行`source ~/.bashrc`
-```javascript
-wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
-bash Miniforge3-Linux-aarch64.sh
-```
-2. 创建并激活虚拟环境
-	 创建环境
-```javascript
-# 创建名为 arm_vision 的 Python 3.10 环境
-conda create -n arm_vision python=3.10
-# 激活环境
-conda activate arm_vision
-```
-	==注：使用Python 3.10是为了匹配JetPack 6.2.1的系统默认版本==
+> [!note]+ ## ⚙️ 配置Miniforge
+> ### 📌 配置目的 
+> 
+> 通过配置虚拟环境（Miniforge），可以让标定程序运行在NumPy 1.x环境下，而让未来的SAM3D或高级AI模型运行在NumPy 2.x环境下，互不干扰。将Jetson变成一个“模块化、高性能且不容易崩”的开发平台
+> 
+> ### 🛠️ 准备工作
+> 
+> - **网络环境**：确保能够稳定连接GitHub下载安装脚本与Conda镜像源
+> - **系统确认**：核对系统为JetPack 6.2.1，确认基础Python 版本为3.10，确保后续虚拟环境版本一致
+> - **冲突清理**：卸载之前全局pip安装的NumPy 2.x版本，避免其干扰虚拟环境对系统OpenCV库的调用
+> - **路径定位**：确定系统预装OpenCV的.so文件路径（通常在`/usr/lib/python3/dist-packages/cv2`），用于后续在虚拟环境中建立软链接
+> 
+> ### 🚀 核心步骤
+> 
+> 1. 安装Minifoge
+> > [!note]+ 输入以下代码，一路输入yes或按回车，最后重启终端或执行`source ~/.bashrc`
+> > ```javascript
+> > wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
+> > bash Miniforge3-Linux-aarch64.sh
+> > ```
+> 2. 创建并激活虚拟环境
+> > [!note]+ 创建环境
+> > ```javascript
+> > # 创建名为 arm_vision 的 Python 3.10 环境
+> > conda create -n arm_vision python=3.10
+> > # 激活环境
+> > conda activate arm_vision
+> > ```
+> > 
+> > ==注：使用Python 3.10是为了匹配JetPack 6.2.1的系统默认版本==
 > 3. 桥接系统OpenCV（解决GStreamer问题）
 > > [!note]+ 安装兼容的NumPy
 > > ```javascript
