@@ -87,9 +87,9 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 9. 复制整理后的命令行，从当前目录下打开终端，粘贴命令行并点击Enter键运行，此时需要输入Ubuntu的密码
 	==⚠️  运行前最好确保Jetson还在虚拟机USB设备的连接状态，没问题即可运行命令行==
 	
-	```javascript
-	sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" --showlogs --network usb0 jetson-orin-nano-devkit-super internal
-	```
+		```javascript
+		sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" --showlogs --network usb0 jetson-orin-nano-devkit-super internal
+		```
 	
 	==**开始烧录后务必不要离开，需等候在电脑前，因为到Step 3后系统会弹出“检测到新的USB设备”，此时我们应尽快点击连接到虚拟机，否则连接将会超时导致烧录失败！**==
 1. 烧录完成后终端会跳回命令行，此时拔掉短接的杜邦线，HDMI线连接上屏幕，将键盘鼠标等外设连接到Jetson上。进入新系统界面完成相关设置后，即可在界面右上角看到
