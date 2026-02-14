@@ -9,14 +9,9 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 > 现行系统版本：JetPack 6.2.1 | Ubuntu 22.04
 
 ## ❌ Issue：CSI摄像头测试命令报错
-> - 环境：使用MobaXterm同一局域网SSH远程连接Jetson
-> - 现象：输入`nvgstcapture-1.0`测试摄像头报错/黑屏
-> 
-> ![](assets/Project%20Technical%20Document/file-20260214014016570.jpg)
-> 
-> ![](assets/Project%20Technical%20Document/file-20260214014016587.jpg)
-> 
-> - 分析：远程协议无法直接承载这种高带宽的底层硬件渲染，不能使用SSH测试需连接到显示器桌面才可以。另外，使用NoMachine测试也是如此，远程协议（X11/、NoMachine）不兼容硬件加速的渲染器
+- 环境：使用MobaXterm同一局域网SSH远程连接Jetson
+- 现象：输入`nvgstcapture-1.0`测试摄像头报错/黑屏 ![](assets/Project%20Technical%20Document/file-20260214014016570.jpg)![](assets/Project%20Technical%20Document/file-20260214014016587.jpg)
+- 分析：远程协议无法直接承载这种高带宽的底层硬件渲染，不能使用SSH测试需连接到显示器桌面才可以。另外，使用NoMachine测试也是如此，远程协议（X11/、NoMachine）不兼容硬件加速的渲染器
 
 ## ✅ Solution：连接物理显示屏使用测试命令 / 插入HDMI欺骗器模拟物理显示屏（针对NoMachine上不显示）
 
