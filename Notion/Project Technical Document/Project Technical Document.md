@@ -88,7 +88,7 @@ cover: "[[assets/Project Technical Document/file-20260214014017498.jpeg]]"
 	==⚠️  运行前最好确保Jetson还在虚拟机USB设备的连接状态，没问题即可运行命令行==
 
 	```javascript
-	sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" --showlogs --network usb0 jetson-orin-nano-devkit-super internal
+		sudo ./tools/kernel_flash/l4t_initrd_flash.sh --external-device nvme0n1p1 -c tools/kernel_flash/flash_l4t_t234_nvme.xml -p "-c bootloader/generic/cfg/flash_t234_qspi.xml" --showlogs --network usb0 jetson-orin-nano-devkit-super internal
 	```
 	
 
