@@ -74,6 +74,6 @@ cv2.destroyAllWindows()
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220326135.png)
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220204093.png)
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220445078.png)
-16. 双击内参矩阵，
+16. 双击内参矩阵，查看矩阵形式
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220613092.png)
-	
+	![](assets/Matlab标定USB摄像头（720p）/file-20260306220641678.png)
