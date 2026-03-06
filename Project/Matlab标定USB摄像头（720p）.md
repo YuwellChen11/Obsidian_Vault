@@ -59,4 +59,5 @@ cv2.destroyAllWindows()
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306213400332.png)
 8. 打开Camera Calibrator后添加下载下来的采集图像
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306213547339.png)
-9. 实际测量标定板方格后填写
+9. 实际测量标定板后填写方格的边长（比如我实际测量就是23.9mm）
+	![](assets/Matlab标定USB摄像头（720p）/file-20260306213701047.png)
