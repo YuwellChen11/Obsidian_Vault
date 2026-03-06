@@ -74,7 +74,7 @@ cv2.destroyAllWindows()
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220326135.png)
 	参考图![](assets/Matlab标定USB摄像头（720p）/file-20260306220204093.png)
 	参考图![](assets/Matlab标定USB摄像头（720p）/file-20260306220445078.png)
-16. 双击内参矩阵，查看矩阵形式。发现
+16. 双击内参矩阵，查看矩阵形式。发现该内参矩阵和成像模型中的内参矩阵并不一致，这是因为Matlab中内参矩阵采用的是成像模型内参矩阵
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220613092.png)
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306220752382.png)
 	参考图![](assets/Matlab标定USB摄像头（720p）/file-20260306220641678.png)
