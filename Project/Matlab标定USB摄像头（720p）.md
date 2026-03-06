@@ -61,4 +61,6 @@ cv2.destroyAllWindows()
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306213547339.png)
 9. 实际测量标定板后填写方格的边长（比如我实际测量就是23.9mm）
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306213701047.png)
-10. 
+10. 导入图像后选择相机模型、径向畸变参数个数和是否计算切向畸变，选好后点击“Calibrate”标定
+	![](assets/Matlab标定USB摄像头（720p）/file-20260306214146366.png)
+11. 
