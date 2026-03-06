@@ -55,5 +55,7 @@ cv2.destroyAllWindows()
 5. 完成采集后按“Q”键退出
 6. 使用MobaXterm连接Jetson，将采集的图像文件夹“images”下载到Windows本地中
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306213258254.png)
-7. 打开Matlab中的
+7. 打开Matlab中的“Camera Calibrator”进行标定
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306213400332.png)
+8. 打开Camera Calibrator后添加下载下来的采集图像
+9. 
