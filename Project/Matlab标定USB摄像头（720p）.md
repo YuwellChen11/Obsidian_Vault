@@ -70,4 +70,6 @@ cv2.destroyAllWindows()
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306215345701.png)
 14. 导出相机标定参数至工作区
 	![](assets/Matlab标定USB摄像头（720p）/file-20260306215647710.png)
-15. 
+15. 回到Matlab主页
+	
+	![](assets/Matlab标定USB摄像头（720p）/file-20260306220204093.png)
