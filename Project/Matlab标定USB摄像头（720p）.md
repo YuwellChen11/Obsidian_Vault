@@ -54,4 +54,6 @@ cv2.destroyAllWindows()
 4. 弹出摄像头显示画面后，手动变换标定板不同位置，按空格键采集图像
 5. 完成采集后按“Q”键退出
 6. 使用MobaXterm连接Jetson，将采集的图像文件夹“images”下载到Windows本地中
+	![](assets/Matlab标定USB摄像头（720p）/file-20260306213258254.png)
 7. 打开Matlab中的
+	![](assets/Matlab标定USB摄像头（720p）/file-20260306213400332.png)
