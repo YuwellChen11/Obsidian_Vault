@@ -55,5 +55,9 @@
   "defaultExportDirectoryMode": "Auto",
   "openExportedFile": true,
   "env": {},
-  "showExportProgressBar": true
+  "showExportProgressBar": true,
+  "lastExportDirectory": {
+    "win32": "D:\\Documents\\Obsidian"
+  },
+  "lastExportType": "Markdown (Hugo)"
 }
